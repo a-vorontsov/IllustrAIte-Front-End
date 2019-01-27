@@ -9,9 +9,12 @@ export default class HostJoin extends React.Component<any, any> {
 
   onAction(action: string) {
     switch (action) {
+      case "logout":
+        localStorage.clear();
+        this.props.onAction("main");
+        break;
       case "join":
       case "host":
-      case "back":
         this.props.onAction(action);
         break;
     }
@@ -43,6 +46,13 @@ export default class HostJoin extends React.Component<any, any> {
                 </div>
               </div>
             </div>
+            <div className="modal-footer">
+              <button onClick={() => {this.onAction("logout")}}
+                      type="button"
+                      className="btn btn-block btn-light">
+                <span>log out</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -68,18 +78,27 @@ export class JoinRoom extends React.Component<any, any> {
     await this.setState(newState);
   }
 
-  async onAction() {
-    const payload = {
-      host: this.state.roomName,
-      username: localStorage.getItem("username"),
-    };
-    // TODO
-    // const req = request
-    //   .post("/game/join")
-    //   .set("Content-Type: application/json")
-    //   .set("Accept: application/json")
-    // const res = await req.send(payload)
-    console.table(payload);
+  async onAction(action: string) {
+    switch (action) {
+      case "join":
+        const payload = {
+          host: this.state.roomName,
+          username: localStorage.getItem("username"),
+        };
+        // TODO
+        // const req = request
+        //   .post("/game/join")
+        //   .set("Content-Type: application/json")
+        //   .set("Accept: application/json")
+        // const res = await req.send(payload)
+        console.table(payload);
+        localStorage.setItem("host", this.state.roomName);
+        this.props.onAction("viewRoom");
+        break;
+      case "back":
+        this.props.onAction("hostJoin");
+        break;
+    }
   }
 
   render() {
@@ -90,6 +109,11 @@ export class JoinRoom extends React.Component<any, any> {
           <div className="modal-content fade-in">
             <div className="modal-header">
               <h1 className="modal-title">Join Room</h1>
+              <button onClick={() => {this.onAction("back")}}
+                      type="button"
+                      className="close">
+                <span>back</span>
+              </button>
             </div>
             <div className="modal-body">
               <div>
@@ -102,7 +126,7 @@ export class JoinRoom extends React.Component<any, any> {
               </div>
             </div>
             <div className="modal-footer">
-              <button onClick={this.onAction}
+              <button onClick={() => this.onAction("register")}
                       type="button"
                       className="btn btn-lg btn-block btn-primary">
                 Join Room
@@ -118,6 +142,28 @@ export class JoinRoom extends React.Component<any, any> {
 export class HostRoom extends React.Component<any, any> {
   constructor(props) {
     super(props);
+    this.onAction = this.onAction.bind(this);
+  }
+
+  async onAction(action: string) {
+    switch (action) {
+      case "join":
+        const payload = {
+          host: this.state.roomName,
+          username: localStorage.getItem("username"),
+        };
+        // TODO
+        // const req = request
+        //   .post("/game/join")
+        //   .set("Content-Type: application/json")
+        //   .set("Accept: application/json")
+        // const res = await req.send(payload)
+        console.table(payload);
+        break;
+      case "back":
+        this.props.onAction("hostJoin");
+        break;
+    }
   }
 
   render() {
@@ -127,6 +173,11 @@ export class HostRoom extends React.Component<any, any> {
           <div className="modal-content fade-in">
             <div className="modal-header">
               <h1 className="modal-title">Host Room</h1>
+              <button onClick={() => {this.onAction("back")}}
+                      type="button"
+                      className="close">
+                <span>back</span>
+              </button>
             </div>
             <div className="modal-body">
               <h1>asdf</h1>

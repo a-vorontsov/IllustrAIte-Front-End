@@ -8,12 +8,13 @@ import {
 } from "./components/host-join";
 import LoginRegister from "./components/login-register";
 import Register from "./components/register";
+import ViewRoom from "./components/view-room";
 
 export default class MainMenu extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
-      stage: "main"
+      stage: "draw"
     }
     this.login = this.login.bind(this);
     this.onAction = this.onAction.bind(this);
@@ -60,6 +61,8 @@ export default class MainMenu extends React.Component<any, any> {
                 return <HostRoom onAction={this.onAction}/>;
               case "join":
                 return <JoinRoom onAction={this.onAction}/>;
+              case "viewRoom":
+                return <ViewRoom onAction={this.onAction}/>;
               case "draw":
                 return <DrawCanvas/>;
               default:

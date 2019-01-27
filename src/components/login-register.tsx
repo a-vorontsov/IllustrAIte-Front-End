@@ -21,7 +21,7 @@ export default class LoginRegister extends React.Component<any, any> {
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content fade-in">
             <div className="modal-header">
-              <h1 className="modal-title">TBC Game Name</h1>
+              <h1 className="modal-title">IllustrAIte!</h1>
             </div>
             <div className="modal-body">
               <div className="row">

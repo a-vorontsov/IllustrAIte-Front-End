@@ -29,11 +29,12 @@ export default class Register extends React.Component<any, State> {
         break;
       case "register":
         const req = request
-          .post("/user/register")
+          .post("http://localhost:5555/user/register")
           .set("Content-type: application/json")
           .set("Accept: application/json")
         const res = await req.send(this.state);
-        console.log(res.body);
+        alert("Success");
+        this.props.onAction("main");
         break;
     }
   }

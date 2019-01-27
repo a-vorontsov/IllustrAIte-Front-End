@@ -28,6 +28,18 @@ export default class DrawableCanvas extends React.Component<Props, any> {
   componentWillReceiveProps(nextProps) {
     if (nextProps.clear) {
       this.resetCanvas();
+    } else if (nextProps.newLines) {
+      console.log(nextProps.newLines);
+      var prevX, prevY, currX, currY;
+      nextProps.newLines.forEach(line => {
+        for (let i = 1; i < line.length; i++) {
+          prevX = line[i-1][0];
+          prevY = line[i-1][1];
+          currX = line[i][0];
+          currY = line[i][1];
+          this.draw(prevX, prevY, currX, currY);
+        }
+      });
     }
   }
 
@@ -96,8 +108,6 @@ export default class DrawableCanvas extends React.Component<Props, any> {
     }
   }
 
-
-
   handleOnMouseUp() {
     const {lineCoords, lastX, lastY} = this.state;
     lineCoords.push([lastX, lastY]);
@@ -158,4 +168,5 @@ type Props = {
   };
   clear?: boolean;
   lineCoords?: any;
+  newLines?: any;
 }

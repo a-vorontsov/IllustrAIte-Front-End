@@ -12,6 +12,12 @@ body {
     color: #444 !important;
 }
 
+.main-container {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(239, 7, 84, 0.7);
+}
+
 .fade-in {
     animation: fadeIn ease 0.3s;
     -webkit-animation: fadeIn ease 0.3s;
@@ -67,8 +73,18 @@ body {
 }
 
 .draw-area {
-    height: 100vh;
-    width: 100vw;
+    height: 100vmin;
+    width: 100vmin;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.guess-area {
+    height: 100vmin;
+    width: 100vmin;
+    position: relative;
+    overflow-y: scroll;
 }
 
 .modal {
@@ -101,4 +117,8 @@ body {
 .custom-select {
     text-align: center;
     text-align-last: center;
+}
+
+.text-center {
+    text-align: center;
 }

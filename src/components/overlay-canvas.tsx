@@ -2,7 +2,7 @@ import * as React from "react";
 import DrawableCanvas from "../draw-canvas-lib";
 const request = require("superagent");
 
-export default class DrawCanvas extends React.Component<any, any> {
+export default class OverlayCanvas extends React.Component<any, any> {
   constructor(props) {
     super(props);
     this.state = {
@@ -19,17 +19,27 @@ export default class DrawCanvas extends React.Component<any, any> {
   }
 
   async componentDidMount() {
+    const req = request
+      .post("http://localhost:5555/game/info")
+      .set("Content-Type: application/json")
+      .set("Accept: application/json")
+    const res = await req.send({host: localStorage.getItem("host")});
+    localStorage.setItem("opponent", Object.keys(res.body.players).filter(p => p !== localStorage.getItem("username"))[0])
+    const newLines = res.body.initialImages[localStorage.getItem("opponent")];
+    this.setState({newLines});
     setTimeout(async () => {
       const req = request
-        .post("http://localhost:5555/game/initial_images")
+        .post("http://localhost:5555/game/overlay_images")
         .set("Content-Type: application/json")
         .set("Accept: application/json")
       const res = await req.send({
         host: localStorage.getItem("host"),
         username: localStorage.getItem("username"),
-        image: this.state.lineCoords
+        images: {
+          [localStorage.getItem("opponent")]: this.state.lineCoords
+        }
       });
-      this.props.onAction("waitingRoom");
+      this.props.onAction("waitingRoom2");
     }, 10000);
   }
 
@@ -39,13 +49,11 @@ export default class DrawCanvas extends React.Component<any, any> {
       .set("Content-Type: application/json")
       .set("Accept: application/json")
     const res = await req.send({host: localStorage.getItem("host")});
-    console.log(res.body);
   }
 
   render() {
     return (
       <div>
-        <h1 style={{color: "white"}}>{localStorage.getItem("drawObject")}</h1>
         <div className="draw-area">
           <DrawableCanvas lineWidth={4} canvasStyle={{backgroundColor: "#fff"}} lineCoords={this.lineCoords} newLines={this.state.newLines}/>
         </div>

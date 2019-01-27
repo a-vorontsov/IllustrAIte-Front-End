@@ -26,13 +26,11 @@ export default class Login extends React.Component<any, State> {
         this.props.onAction("main");
         break;
       case "login":
-        // TODO
-        // const req = request
-        //   .post("/user/login")
-        //   .set("Content-type: application/json")
-        //   .set("Accept: application/json")
-        // const res = await req.send(this.state);
-        // console.log(res.body);
+        const req = request
+          .post("http://localhost:5555/user/login")
+          .set("Content-type: application/json")
+          .set("Accept: application/json")
+        const res = await req.send(this.state);
         localStorage.setItem("username", this.state.username);
         localStorage.setItem("location", "GB");
         this.props.onAction("hostJoin");
